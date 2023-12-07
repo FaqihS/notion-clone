@@ -30,18 +30,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const className =inter.className + " dark:animate-fade-in-light animate-fade-in"
+  console.log(className)
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={className}>
+        {/* <div className=""> */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
+          // disableTransitionOnChange
           storageKey="jotion-theme"
         >
           {children}
         </ThemeProvider>
+        {/* </div> */}
       </body>
     </html>
   );

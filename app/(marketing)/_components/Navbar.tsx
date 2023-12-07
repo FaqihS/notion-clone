@@ -12,7 +12,7 @@ export default function Navbar(){
 
   return(
   <div className={cn(
-      "z-50 fixed bg-background dark:bg-[#1f1f1f] top-0 w-full flex items-center p-6",
+      "z-50 fixed bg-background dark:bg-[#1f1f1f] top-0 w-full  flex items-center p-4",
       isScrolled && "border-b shadow-sm "
     )}>
       <Logo />
