@@ -11,7 +11,7 @@ export default function MainLayout({children}:{children:ReactNode}){
   if(isLoading){
     return (
     <div className="w-full h-full flex justify-center items-center">
-        <Spinner size="icon"/>
+        <Spinner size="lg"/>
       </div>
     )
   }

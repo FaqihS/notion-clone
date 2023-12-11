@@ -19,7 +19,7 @@ export default function Heading (){
       </h3>
       {isLoading && (
         <div className="w-full flex items-center justify-center">
-          <Spinner size='icon'/>
+          <Spinner size='lg'/>
         </div>
       )}
       { !isAuthenticated && !isLoading && (
