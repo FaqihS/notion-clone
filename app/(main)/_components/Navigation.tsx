@@ -1,17 +1,20 @@
 import { cn } from "@/lib/utils";
-import {  ChevronsLeft, MenuIcon } from "lucide-react";
+import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./UserItem";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import Item from "./Item";
+import { toast } from "sonner";
 
 export default function Navigation() {
   const pathName = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-const documents = useQuery(api.documents.get)
+  const documents = useQuery(api.documents.get);
+  const create = useMutation(api.documents.create)
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -19,11 +22,13 @@ const documents = useQuery(api.documents.get)
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  useEffect(()=>{
-    isMobile ? collapse() : resettingWidth()
-  },[isMobile])
+  useEffect(() => {
+    isMobile ? collapse() : resettingWidth();
+  }, [isMobile]);
 
-  useEffect(()=>{isMobile&&collapse()},[pathName,isMobile])
+  useEffect(() => {
+    isMobile && collapse();
+  }, [pathName, isMobile]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
@@ -57,10 +62,7 @@ const documents = useQuery(api.documents.get)
       setIsResetting(true);
 
       sidebarRef.current.style.width = isMobile ? "100%" : "240px";
-      navbarRef.current.style.setProperty(
-        "width",
-        isMobile ? "" : "calc(100%-240px)"
-      );
+      navbarRef.current.style.setProperty("width", isMobile ? "" : "calc(100%-240px)");
       navbarRef.current.style.setProperty("left", isMobile ? "100%" : "240px");
       setTimeout(() => setIsResetting(false), 300);
     }
@@ -78,6 +80,15 @@ const documents = useQuery(api.documents.get)
     }
   };
 
+  const handleCreate = ()=>{
+    const promise = create({title: "Untitled"})
+    toast.promise(promise,{
+      loading: "Creating a new note....",
+      success: "New note has been created !!",
+      error: "Failed to create a new note !!"
+    })
+  }
+
   return (
     <>
       <aside
@@ -85,7 +96,7 @@ const documents = useQuery(api.documents.get)
         className={cn(
           "group/sidebar h-full w-60 bg-secondary overflow-y-auto relative flex flex-col z-[999]",
           isResetting && "transition-all ease-in-out duration-300",
-          isMobile && "w-0"
+          isMobile && "w-0",
         )}
       >
         <div
@@ -93,19 +104,28 @@ const documents = useQuery(api.documents.get)
           role="button"
           className={cn(
             "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 group-hover/sidebar:opacity-100 opacity-0 transition",
-            isMobile && "opacity-100"
+            isMobile && "opacity-100",
           )}
         >
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div>
           <UserItem />
+          <Item 
+            onClick={()=>{}}
+            label="Search"
+            icon={Search}
+            isSearch
+
+          />
+          <Item 
+            onClick={()=>{}}
+            label="Settings"
+            icon={Settings}
+          />
+          <Item onClick={handleCreate} label="New Page" icon={PlusCircle}/>
         </div>
-        <div className="mt-4">
-          {documents?.map(d => (
-          <p key={d._id}>{d.title}</p>
-          ))}
-        </div>
+        <div className="mt-4">{documents?.map((d) => <p key={d._id}>{d.title}</p>)}</div>
         <div
           onMouseDown={handleMouseDown}
           onClick={resettingWidth}
@@ -117,7 +137,7 @@ const documents = useQuery(api.documents.get)
         className={cn(
           "absolute top-0 z-[999] left-60 w-[calc(100%-240px)]",
           isResetting && "transition-all ease-in-out duration-300",
-          isMobile && "left-0 w-full"
+          isMobile && "left-0 w-full",
         )}
       >
         <nav className="bg-transparent px-3 py-2 w-full">
