@@ -15,41 +15,44 @@ import { Doc, Id } from "./_generated/dataModel";
 //
 
 export const archive = mutation({
-  args:{
-    id: v.id("documents")
+  args: {
+    id: v.id("documents"),
   },
-  handler: async (ctx,args) =>{
+  handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Not Authenticated");
+
     const userId = identity.subject;
-    const existingDocument = await ctx.db.get(args.id)
-    if(!existingDocument) throw new Error('Not Found')
 
-    if(existingDocument.userId !== userId) throw new Error('Unauthorized')
+    const existingDocument = await ctx.db.get(args.id);
+    if (!existingDocument) throw new Error("Not Found");
+    if (existingDocument.userId !== userId) throw new Error("Unauthorized");
 
-    const recursiveArcive = async (documentId : Id<"documents">) =>{
-      const children = await ctx.db.query('documents').withIndex("by_user_parent",(q)=>(
-      q
-        .eq('userId',userId)
-        .eq('parentDocument',documentId)
-      ))
-      .collect()
-      for(const child of children){
-        await ctx.db.patch(child._id,{
-          isArchived:true
-        })
+    const recursiveArcive = async (documentId: Id<"documents">) => {
+      const children = await ctx.db
+        .query("documents")
+        .withIndex("by_user_parent", (q) =>
+          q.eq("userId", userId).eq("parentDocument", documentId),
+        )
+        .collect();
+      for (const child of children) {
+        await ctx.db.patch(child._id, {
+          isArchived: true,
+        });
 
-        await recursiveArcive(child._id)
+        await recursiveArcive(child._id);
       }
-    }
+    };
 
-    const document = await ctx.db.patch(args.id,{
-      isArchived: true
-    })
+    const document = await ctx.db.patch(args.id, {
+      isArchived: true,
+    });
 
-    return document
-  }
-})
+    recursiveArcive(args.id);
+
+    return document;
+  },
+});
 
 export const getSidebar = query({
   args: {
@@ -61,11 +64,13 @@ export const getSidebar = query({
     const userId = identity.subject;
     const documents = await ctx.db
       .query("documents")
-      .withIndex("by_user_parent", (q) => q.eq("userId", userId).eq("parentDocument", args.parentDocument))
+      .withIndex("by_user_parent", (q) =>
+        q.eq("userId", userId).eq("parentDocument", args.parentDocument),
+      )
       .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
       .collect();
-    return documents
+    return documents;
   },
 });
 
