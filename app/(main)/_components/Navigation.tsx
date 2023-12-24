@@ -11,6 +11,7 @@ import Item from "./Item";
 import { toast } from "sonner";
 import DocumentList from "./DocumentList";
 import TrashBox from "./TrashBox";
+import { useSearch } from "@/hooks/useSearch";
 
 export default function Navigation() {
   const pathName = usePathname();
@@ -23,6 +24,8 @@ export default function Navigation() {
   const navbarRef = useRef<ElementRef<"div">>(null);
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const toggle = useSearch(store=>store.toggle)
 
   useEffect(() => {
     isMobile ? collapse() : resettingWidth();
@@ -113,7 +116,7 @@ export default function Navigation() {
         </div>
         <div>
           <UserItem />
-          <Item onClick={() => {}} label="Search" icon={Search} isSearch />
+          <Item onClick={toggle} label="Search" icon={Search} isSearch />
           <Item onClick={() => {}} label="Settings" icon={Settings} />
           <Item onClick={handleCreate} label="New Page" icon={PlusCircle} />
         </div>
