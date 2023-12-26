@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import DocumentList from "./DocumentList";
 import TrashBox from "./TrashBox";
 import { useSearch } from "@/hooks/useSearch";
+import { useSettings } from "@/hooks/useSettings";
 
 export default function Navigation() {
   const pathName = usePathname();
@@ -25,7 +26,8 @@ export default function Navigation() {
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const toggle = useSearch(store=>store.toggle)
+  const openSearch = useSearch(store=>store.onOpen)
+  const openSettings  = useSettings(store=>store.onOpen)
 
   useEffect(() => {
     isMobile ? collapse() : resettingWidth();
@@ -116,8 +118,8 @@ export default function Navigation() {
         </div>
         <div>
           <UserItem />
-          <Item onClick={toggle} label="Search" icon={Search} isSearch />
-          <Item onClick={() => {}} label="Settings" icon={Settings} />
+          <Item onClick={openSearch} label="Search" icon={Search} isSearch />
+          <Item onClick={openSettings} label="Settings" icon={Settings} />
           <Item onClick={handleCreate} label="New Page" icon={PlusCircle} />
         </div>
         <div className="mt-4">
