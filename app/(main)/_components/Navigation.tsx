@@ -1,7 +1,19 @@
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon, Plus, PlusCircle, Search, Settings, Trash } from "lucide-react";
-import { Popover, PopoverTrigger, PopoverContent} from "@/components/ui/popover"
-import { usePathname } from "next/navigation";
+import {
+  ChevronsLeft,
+  MenuIcon,
+  Plus,
+  PlusCircle,
+  Search,
+  Settings,
+  Trash,
+} from "lucide-react";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { useParams, usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./UserItem";
@@ -13,9 +25,11 @@ import DocumentList from "./DocumentList";
 import TrashBox from "./TrashBox";
 import { useSearch } from "@/hooks/useSearch";
 import { useSettings } from "@/hooks/useSettings";
+import Navbar from "./Navbar";
 
 export default function Navigation() {
   const pathName = usePathname();
+  const params = useParams();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const create = useMutation(api.documents.create);
@@ -26,8 +40,8 @@ export default function Navigation() {
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const openSearch = useSearch(store=>store.onOpen)
-  const openSettings  = useSettings(store=>store.onOpen)
+  const openSearch = useSearch((store) => store.onOpen);
+  const openSettings = useSettings((store) => store.onOpen);
 
   useEffect(() => {
     isMobile ? collapse() : resettingWidth();
@@ -69,7 +83,10 @@ export default function Navigation() {
       setIsResetting(true);
 
       sidebarRef.current.style.width = isMobile ? "100%" : "240px";
-      navbarRef.current.style.setProperty("width", isMobile ? "" : "calc(100%-240px)");
+      navbarRef.current.style.setProperty(
+        "width",
+        isMobile ? "" : "calc(100%-240px)",
+      );
       navbarRef.current.style.setProperty("left", isMobile ? "100%" : "240px");
       setTimeout(() => setIsResetting(false), 300);
     }
@@ -128,14 +145,12 @@ export default function Navigation() {
           <Popover>
             <PopoverTrigger className="w-full mt-4">
               <Item label="Trash" icon={Trash} />
-              
             </PopoverTrigger>
-            <PopoverContent 
+            <PopoverContent
               className="p-0 w-72"
               side={isMobile ? "bottom" : "right"}
             >
               <TrashBox />
-
             </PopoverContent>
           </Popover>
         </div>
@@ -153,15 +168,19 @@ export default function Navigation() {
           isMobile && "left-0 w-full",
         )}
       >
-        <nav className="bg-transparent px-3 py-2 w-full">
-          {isCollapsed && (
-            <MenuIcon
-              onClick={resettingWidth}
-              className="w-6 h-6 text-muted-foreground "
-              role="button"
-            />
-          )}
-        </nav>
+        {!!params.documentId ? (
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resettingWidth} />
+        ) : (
+          <nav className="bg-transparent px-3 py-2 w-full">
+            {isCollapsed && (
+              <MenuIcon
+                onClick={resettingWidth}
+                className="w-6 h-6 text-muted-foreground "
+                role="button"
+              />
+            )}
+          </nav>
+        )}
       </div>
     </>
   );
