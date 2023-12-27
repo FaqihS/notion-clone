@@ -6,6 +6,8 @@ import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
 import { MenuIcon } from "lucide-react";
 import Title from "./Title";
+import Banner from "./Banner";
+import Menu from "./Menu";
 
 interface NavbarProps {
   isCollapsed: boolean;
@@ -19,7 +21,15 @@ export default function Navbar({ isCollapsed, onResetWidth }: NavbarProps) {
   });
 
   if (document === undefined) {
-    return <p>Loading...</p>;
+    return (
+      <nav className="flex items-center justify-between w-full bg-background dark:bg-[#1f1f1f] px-3 py-2">
+        <Title.Skeleton />
+        <div className="flex items-center gap-x-2">
+
+          <Menu.Skeleton/>
+        </div>
+      </nav>
+    );
   }
 
   if (document === null) return null;
@@ -35,9 +45,13 @@ export default function Navbar({ isCollapsed, onResetWidth }: NavbarProps) {
           />
         )}
         <div className="flex items-center justify-between w-full">
-          <Title initialData={document}/>
+          <Title initialData={document} />
+          <div className="flex items-center gap-x-2">
+            <Menu documentId={document._id} />
+          </div>
         </div>
       </nav>
+      {document.isArchived && <Banner documentId={document._id} />}
     </>
   );
 }
