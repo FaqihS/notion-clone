@@ -19,6 +19,7 @@ export default function Toolbar({initialData,preview}:ToolbarProps){
   const [value,setValue] = useState(initialData.title)
 
   const update = useMutation(api.documents.update)
+  const removeIcon = useMutation(api.documents.removeIcon)
 
   const enableInput = ()=>{
     if(preview) return
@@ -27,7 +28,7 @@ export default function Toolbar({initialData,preview}:ToolbarProps){
     setTimeout(()=>{
       setValue(initialData.title)
       inputRef.current?.focus();
-      // inputRef.current?.setSelectionRange(initialData.title.length,initialData.title.length)
+      inputRef.current?.setSelectionRange(initialData.title.length,initialData.title.length)
     },0)
   }
 
@@ -51,18 +52,32 @@ export default function Toolbar({initialData,preview}:ToolbarProps){
     }
   }
 
+  const onIconSelect = (icon: string) => {
+    update({
+      id: initialData._id,
+      icon
+    })
+  }
+
+  const onRemoveIcon = ()=>{
+    removeIcon({
+      id: initialData._id
+    })
+
+  }
+
   return(
   <div className="pl-[54px] group relative">
      {!!initialData.icon && !preview && (
      <div className="flex items-center gap-x-2 group/icon pt-6">
-          <IconPicker onChange={()=>{}} >
+          <IconPicker onChange={onIconSelect} >
             <p className="text-6xl hover:opacity-75 transition">
               {initialData.icon}
             </p>
 
           </IconPicker>
           <Button
-            onClick={()=>{}}
+            onClick={onRemoveIcon}
             className="rounded-full opacity-0 group-hover/icon:opacity-100 transition text-muted-foreground text-xs"
             variant='outline'
             size='icon'
@@ -82,7 +97,7 @@ export default function Toolbar({initialData,preview}:ToolbarProps){
 
       <div className="opacity-0 group-hover:opacity-100 flex items-center gap-x-1 py-4">
         {!initialData.icon && !preview && (
-          <IconPicker onChange={()=>{}} asChild>
+          <IconPicker onChange={onIconSelect} asChild>
             <Button className="text-muted-foreground text-xs" variant='outline' size='sm'>
               <Smile className="h-4 w-4 mr-2" />
               Add icon
