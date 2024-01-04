@@ -32,7 +32,7 @@ export function ConfirmModal ({children,onConfirm}:ConfirmModalProps){
           <AlertDialogCancel onClick={e=>e.stopPropagation()}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction className='hover:bg-red-600' onClick={handleConfirm}>
+          <AlertDialogAction className='hover:bg-rose-600' onClick={handleConfirm}>
             Confirm
           </AlertDialogAction>
         </AlertDialogFooter>

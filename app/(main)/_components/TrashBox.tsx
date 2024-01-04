@@ -99,7 +99,7 @@ export default function TrashBox() {
               <ConfirmModal onConfirm={() => onRemove(d._id)}>
                 <div
                   role="button"
-                  className="rounded-sm p-2 hover:bg-red-400 dark:hover:bg-red-600"
+                  className="rounded-sm p-2 hover:bg-rose-400 dark:hover:bg-rose-600"
                 >
                   <Trash className="h-4 w-4 text-muted-foreground" />
                 </div>
