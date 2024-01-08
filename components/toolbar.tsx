@@ -7,6 +7,7 @@ import { ImageIcon, Smile, X } from "lucide-react";
 import { ElementRef, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { useCoverImage } from "@/hooks/useCoverImage";
 
 interface ToolbarProps{
   initialData: Doc<'documents'>
@@ -21,14 +22,16 @@ export default function Toolbar({initialData,preview}:ToolbarProps){
   const update = useMutation(api.documents.update)
   const removeIcon = useMutation(api.documents.removeIcon)
 
+  const coverImage = useCoverImage();
+
   const enableInput = ()=>{
     if(preview) return
 
     setIsEditing(true)
     setTimeout(()=>{
       setValue(initialData.title)
-      inputRef.current?.focus();
       inputRef.current?.setSelectionRange(initialData.title.length,initialData.title.length)
+      inputRef.current?.focus();
     },0)
   }
 
@@ -107,7 +110,7 @@ export default function Toolbar({initialData,preview}:ToolbarProps){
         )}
         { !initialData.coverImage && !preview && (
           <Button 
-            onClick={()=>{}}
+            onClick={coverImage.onOpen}
             className="text-muted-foreground text-xs"
             variant='outline' 
             size='sm'>
