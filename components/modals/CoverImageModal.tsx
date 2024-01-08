@@ -31,6 +31,9 @@ export default function CoverImageModal() {
 
       const res = await edgestore.publicFiles.upload({
         file,
+        options: {
+          replaceTargetUrl: coverImage.oldUrl
+        }
       });
       await update({
         id: params.documentId as Id<"documents">,
