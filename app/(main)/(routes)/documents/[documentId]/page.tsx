@@ -30,8 +30,6 @@ export default function DocumentId({params}:DocumentIdProps){
             <Skeleton className="h-4 w-[80%]"/>
             <Skeleton className="h-4 w-[40%]"/>
             <Skeleton className="h-4 w-[60%]"/>
-
-
           </div>
 
         </div>

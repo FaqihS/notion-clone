@@ -128,7 +128,7 @@ export default function Toolbar({initialData,preview}:ToolbarProps){
           onKeyDown={onKeyDown} 
           value={value} 
           onChange={(e)=>onInput(e.target.value)}
-          className="text-5xl bg-transparent text-transparent font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf] resize-none"
+          className="text-5xl bg-transparent  font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf] resize-none"
         />
 
       ): (
