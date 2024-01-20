@@ -149,7 +149,7 @@ export default function Navigation() {
               <Item label="Trash" icon={Trash} />
             </PopoverTrigger>
             <PopoverContent
-              className="p-0 w-72"
+              className="p-0 w-72 max-h-96 overflow-auto"
               side={isMobile ? "bottom" : "right"}
             >
               <TrashBox />
