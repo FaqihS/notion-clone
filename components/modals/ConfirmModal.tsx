@@ -25,7 +25,7 @@ export function ConfirmModal ({children,onConfirm}:ConfirmModalProps){
             Are you Absolutely sure ?
           </AlertDialogTitle> 
           <AlertDialogDescription>
-            This Action can't be revert !!
+            This Action cannot be revert !!
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter onClick={e=>e.stopPropagation()}>
