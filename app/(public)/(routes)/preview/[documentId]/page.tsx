@@ -61,11 +61,12 @@ export default function DocumentId({params}:DocumentIdProps){
   }
 
   return(
-  <div className="pb-40">
-      <Cover url={document.coverImage}/>
+  <div className="pb-40 dark:bg-[#1f1f1f]">
+      <Cover preview url={document.coverImage}/>
       <div className=" ">
-        <Toolbar initialData={document} />
+        <Toolbar preview initialData={document} />
         <Editor
+          editable={false}
           onChange={onChange}
           initialContent={document.content}
         />
