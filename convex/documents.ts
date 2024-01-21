@@ -216,7 +216,7 @@ export const getById = query({
   handler: async (ctx, args) => {
     const documents = await ctx.db.get(args.documentId);
     if (!documents) throw new Error("Not Found");
-    if (!documents.isPublished && !documents.isArchived) return documents;
+    if (documents.isPublished && !documents.isArchived) return documents;
 
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new Error("Not Authenticated");
