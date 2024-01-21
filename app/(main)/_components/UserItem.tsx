@@ -23,7 +23,7 @@ export default function UserItem() {
             <Avatar className="h-5 w-5">
               <AvatarImage src={user?.imageUrl} />
             </Avatar>
-            <span className="text-start font-medium line-clamp-1">
+            <span className="text-start font-medium text-accent-foreground line-clamp-1">
               {user?.fullName}&apos;s Jotion
             </span>
           </div>

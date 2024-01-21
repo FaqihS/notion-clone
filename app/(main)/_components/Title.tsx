@@ -60,14 +60,14 @@ export default function Title({ initialData }: TitleProps) {
           onKeyDown={onKeyDown}
           value={title}
 
-          className="h-7 px-2 focus-visible:ring-transparent" 
+          className="h-7 px-2 focus-visible:ring-transparent text-accent-foreground" 
         />
       ) : (
         <Button
             onClick={enableInput}
             variant='ghost'
             size='sm'
-            className="font-normal h-auto p-1"
+            className="font-medium h-auto p-1 text-accent-foreground"
 
           >
             <span className="truncate">
