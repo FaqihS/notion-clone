@@ -1,3 +1,10 @@
+# Overview
+![image](https://github.com/FaqihS/notion-clone/assets/110684084/759b343d-213d-46cd-84a7-a7abf206fb78)
+![image](https://github.com/FaqihS/notion-clone/assets/110684084/d2d97870-950e-47ca-8ec0-2705362b88a3)
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
